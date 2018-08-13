@@ -1,0 +1,25 @@
+[Unit]
+Description=OpenLDAP Server Daemon
+After=syslog.target network-online.target
+Documentation=man:slapd
+Documentation=man:slapd-config
+Documentation=man:slapd-hdb
+Documentation=man:slapd-mdb
+Documentation=file:///usr/share/doc/openldap-servers/guide.html
+
+[Service]
+Type=forking
+PIDFile=/var/run/openldap/slapd.pid
+Environment="SLAPD_URLS=ldap:/// ldapi:///" "SLAPD_OPTIONS="
+EnvironmentFile=/etc/sysconfig/slapd
+ExecStartPre=/usr/libexec/openldap/check-config.sh
+ExecStart=/usr/sbin/slapd -u ldap -h ${SLAPD_URLS} $SLAPD_OPTIONS
+<% if scope.lookupvar("::openldap::server::service_limit_nofile") != :undef -%>
+LimitNOFILE=<%= scope.lookupvar("::openldap::server::service_limit_nofile") %>
+<% end -%>
+<% if scope.lookupvar("::openldap::server::service_limit_nproc") != :undef -%>
+LimitNPROC=<%= scope.lookupvar("::openldap::server::service_limit_nproc") %>
+<% end -%>
+
+[Install]
+WantedBy=multi-user.target
