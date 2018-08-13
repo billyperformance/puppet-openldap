@@ -1,12 +1,14 @@
 # See README.md for details.
 class openldap::server(
-  $package           = $openldap::params::server_package,
-  $confdir           = $openldap::params::server_confdir,
-  $conffile          = $openldap::params::server_conffile,
-  $service           = $openldap::params::server_service,
-  $service_hasstatus = $openldap::params::server_service_hasstatus,
-  $owner             = $openldap::params::server_owner,
-  $group             = $openldap::params::server_group,
+  $package              = $openldap::params::server_package,
+  $confdir              = $openldap::params::server_confdir,
+  $conffile             = $openldap::params::server_conffile,
+  $service              = $openldap::params::server_service,
+  $service_hasstatus    = $openldap::params::server_service_hasstatus,
+  $service_limit_nofile = undef,
+  $service_limit_nproc  = undef,
+  $owner                = $openldap::params::server_owner,
+  $group                = $openldap::params::server_group,
 
   $enable    = true,
   $start     = true,
